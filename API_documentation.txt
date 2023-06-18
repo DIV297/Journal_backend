@@ -1,4 +1,5 @@
-API Link - https://jouranl.onrender.com
+# API Link - https://jouranl.onrender.com
+All requests are post request except last one which is delete request.
 
 For Student
 1. Add Student - https://jouranl.onrender.com/auth/student/addstudent
