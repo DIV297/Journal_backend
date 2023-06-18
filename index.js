@@ -10,5 +10,15 @@ app.get('/',(req,res)=>{
     console.log("hello");
     res.send("hello")
 })
+app.post('/post',async(req,res)=>{
+    try{
+    let center = await Journal.find();
+
+    response.send(center);
+    }
+    catch(error){
+        response.status(500).json(error);
+    }
+})
 app.listen(5000);
 connectToMongo
