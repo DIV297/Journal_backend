@@ -97,45 +97,63 @@ router.post('/getteacherdetails',fetchuser, async(req,res)=>{
     }
   })
 
+
 //adding journal
 router.post('/addjournal',[
-    body('description','description should be atleast 1 character').isLength({min:1})
-],async (request,response)=>{
-    const errors = validationResult(request);
-    if(!errors.isEmpty()){
-        return response.status(400).send({error:errors.array()})
-    }
-    try{
-        await Journal.create(
-            {
-                description:request.body.description,
-                tag:request.body.tag,
-                date:new Date(request.body.date)
-            }
-        )
-        response.send({msg:"Journal added"})
-    } 
-    catch(error){
-        response.status(500).send(error);
-    }
-    
+  body('description','description should be atleast 1 character').isLength({min:1})
+],fetchuser,async (request,response)=>{
+  const errors = validationResult(request);
+  if(!errors.isEmpty()){
+      return response.status(400).json({error:errors.array()})
+  }
+  try{
+    userId = request.user.id;
+    const user = await Teacher.findById(userId).select("-password")
+    console.log(user);
+    if(user){
+      await Journal.create(
+          {
+              description:request.body.description,
+              tag:request.body.tag,
+              date:new Date(request.body.date)
+          }
+      )
+      response.json({msg:"Journal added"})
+        }
+        else{
+          response.status(400).send({error:"Journals can be added by Teacher only"});
+        }
+  } 
+  catch(error){
+      response.status(500).json(error);
+  }
+  
 })
 
 //removing journal
-router.delete("/deletejournal/:id",async (request,response)=>{
-    try{
-        let center =await Jouranl.findById(request.params.id);
-        if(!center){
-            return response.status(400).send({message:"no such journal exists"});
-        }
-        console.log(center.id);
-        await Journal.findByIdAndDelete(request.params.id);
+router.delete("/deletejournal/:idi",fetchuser,async (request,response)=>{
+  try{
+      let center =await Jouranl.findById(request.params.idi);
+      if(!center){
+          return response.status(400).json({message:"no such journal exists"});
+      }
+      console.log(center.id);
+      userId = request.user.id;
+    const user = await Teacher.findById(userId).select("-password");
+    if(user){
+      await Journal.findByIdAndDelete(request.params.id);
+      response.json({msg:"Journal deleted"});
     }
-    catch(error){
-        response.status(500).send(error);
+    else{
+      response.status(400).send({error:"Journals can be deleted by Teacher only"})
     }
-    response.send({msg:"Journal deleted"});
+  }
+  catch(error){
+      response.status(500).json(error);
+  }
+  
 })
+
 
 //displayalljournals
   router.post('/displayalljournals',async (request,response)=>{
