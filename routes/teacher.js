@@ -17,13 +17,13 @@ async (req,res)=>{
   let success=false;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });//eroor1
+      return res.status(400).send({ errors: errors.array() });//eroor1
     }
     try{
     let user = await Teacher.findOne({email: req.body.email});
     console.log(user)
     if(user){
-      return res.status(400).json({success,error:'Sorry a user with this email already exists'})//errr2
+      return res.status(400).send({success,error:'Sorry a user with this email already exists'})//errr2
     }
     const salt = await bcrypt.genSalt(10)
     const secPass= await bcrypt.hash(req.body.password, salt)
@@ -57,17 +57,17 @@ router.post('/loginteacher',[
           let success=false;
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
-              return res.status(400).json({ errors: errors.array()});
+              return res.status(400).send({ errors: errors.array()});
             }
             const {email,password}=req.body
             try{
               let user = await Teacher.findOne({email});
               if(!user){
-                return res.status(400).json({success,error:'Please login to correct crudentials'})
+                return res.status(400).send({success,error:'Please login to correct crudentials'})
               }
               const passwordCompare = await bcrypt.compare(password,user.password)
               if(!passwordCompare){
-                return res.status(400).json({success,error:'Please login to correct crudentials'})
+                return res.status(400).send({success,error:'Please login to correct crudentials'})
               }
               const data={
                 user:{
@@ -99,7 +99,7 @@ router.post('/addjournal',[
 ],async (request,response)=>{
     const errors = validationResult(request);
     if(!errors.isEmpty()){
-        return response.status(400).json({error:errors.array()})
+        return response.status(400).send({error:errors.array()})
     }
     try{
         await Journal.create(
@@ -112,7 +112,7 @@ router.post('/addjournal',[
         response.send({msg:"Journal added"})
     } 
     catch(error){
-        response.status(500).json(error);
+        response.status(500).send(error);
     }
     
 })
@@ -122,15 +122,15 @@ router.delete("/deletejournal/:id",async (request,response)=>{
     try{
         let center =await Jouranl.findById(request.params.id);
         if(!center){
-            return response.status(400).json({message:"no such journal exists"});
+            return response.status(400).send({message:"no such journal exists"});
         }
         console.log(center.id);
         await Journal.findByIdAndDelete(request.params.id);
     }
     catch(error){
-        response.status(500).json(error);
+        response.status(500).send(error);
     }
-    response.json({msg:"Journal deleted"});
+    response.send({msg:"Journal deleted"});
 })
 
 //displayalljournals
@@ -138,10 +138,10 @@ router.delete("/deletejournal/:id",async (request,response)=>{
     try{
     let center = await Journal.find();
 
-    response.json(center);
+    response.send(center);
     }
     catch(error){
-        response.status(500).json(error);
+        response.status(500).send(error);
     }
 })
 module.exports = router 
