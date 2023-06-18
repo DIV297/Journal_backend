@@ -1,0 +1,6 @@
+For sending notifications, I will be using Javascript alert() method which will be used when teacher added any journal in which student is tagged. He or she will get notification.
+
+How it will done
+ I will be matching student name which is stored in Student collection and journal tag name which is stored in Journal collection, when both are matched then this means student is tagged and alert method will be called.
+
+I will also using useEffect in Reactjs because this will keep tracking what is changing.
