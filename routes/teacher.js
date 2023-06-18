@@ -42,8 +42,8 @@ async (req,res)=>{
       const authtoken = jwt.sign(data,JWT_SECRET)
       success=true;
       console.log(user)
-      
-      res.json({success,authtoken})
+
+      res.send({success,authtoken})
       } catch(error){
         console.log(error.message)
         res.status(500).send('Some error  occured');
@@ -76,7 +76,7 @@ router.post('/loginteacher',[
               }
               const authtoken = jwt.sign(data,JWT_SECRET)
               success=true;
-              res.json({success,authtoken})
+              res.send({success,authtoken})
             }catch(error){
               console.log(error.message)
               res.status(500).send('internal Server Error')
@@ -109,7 +109,7 @@ router.post('/addjournal',[
                 date:new Date(request.body.date)
             }
         )
-        response.json({msg:"Journal added"})
+        response.send({msg:"Journal added"})
     } 
     catch(error){
         response.status(500).json(error);
