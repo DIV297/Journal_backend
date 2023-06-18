@@ -8,6 +8,8 @@ var fetchuser = require('../middleware/fetchuser')
 const {body, validationResult} = require('express-validator');
 const Journal = require('../modals/Journal');
 const JWT_SECRET = 'Divanshisgoodprogrammer'
+
+//addTecher
 router.post('/addteacher',
 [
 body('name','Enter valid name').isLength({min:5}),
@@ -49,7 +51,7 @@ async (req,res)=>{
         res.status(500).send('Some error  occured');
       }
 })
-
+//LoginTeacher
 router.post('/loginteacher',[
         body('password','password cannot be empty').exists(),
         body('email','enter valid email').isEmail()],
@@ -82,6 +84,8 @@ router.post('/loginteacher',[
               res.status(500).send('internal Server Error')
             }
     })
+
+//GetTeacher
 router.post('/getteacherdetails',fetchuser, async(req,res)=>{
     try{
       userId = req.user.id;
@@ -137,8 +141,8 @@ router.delete("/deletejournal/:id",async (request,response)=>{
   router.post('/displayalljournals',async (request,response)=>{
     try{
     let center = await Journal.find();
-
-    response.send(center);
+      console.log(center);
+    response.send({center});
     }
     catch(error){
         response.status(500).send(error);
