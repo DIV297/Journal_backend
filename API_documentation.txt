@@ -1,0 +1,31 @@
+API Link - https://jouranl.onrender.com
+
+For Student
+1. Add Student - https://jouranl.onrender.com/auth/student/addstudent
+Here in body you need to pass - name, email and password.
+2. Login Student - https://jouranl.onrender.com/auth/student/loginstudent
+Here in body you need to pass - email and password.
+3. Get Student - https://jouranl.onrender.com/auth/student/getstudentdetails
+Here In header you need to pass auth-token whose value is given when you add or login student
+4. Display journals of student - https://jouranl.onrender.com/auth/student/displaytaggedjournal
+Here in headers you need to pass auth-token given while adding or logging user
+
+For Teacher
+1. Add Teacher - https://jouranl.onrender.com/auth/teacher/addteacher
+Here in body you need to pass - name, email and password.
+2. Login Teacher - https://jouranl.onrender.com/auth/student/loginteacher
+Here in body you need to pass - email and password.
+3. Get Teacher - https://jouranl.onrender.com/auth/student/getteacherdetails
+Here In header you need to pass auth-token whose value is given when you add or login teacher
+4. Display journals of student - https://jouranl.onrender.com/auth/student/displayalljournals
+
+
+Adding Journals
+1. Add journal - 	https://jouranl.onrender.com/auth/teacher/addjournal
+Here in body you need to pass - description, tag , Date
+In header you need to pass auth-token whose value is given when you add or login teacher
+2. Delete journal - https://jouranl.onrender.com/auth/teacher/deletejournal/:id
+here In place of /:id you need to pass id for journal to be deleted.
+In header you need to pass auth-token whose value is given when you add or login teacher.
+
+
